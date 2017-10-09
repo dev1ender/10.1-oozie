@@ -1,0 +1,28 @@
+<workflow-app name="HiveOozieDemo" xmlns="uri:oozie:workflow:0.1">
+ <start to="demo-hive"/>
+           <action name="demo-hive">
+               <hive xmlns="uri:oozie:hive-action:0.2">
+                      <job-tracker>localhost:8032</job-tracker>
+                      <name-node>hdfs://localhost:8020</name-node>
+                      <job-xml>hdfs://localhost:8020/user/oozie/workflows/hive-site.xml</job-xml>
+                      <configuration>
+                           <property>
+                                <name>oozie.hive.defaults</name>
+                                <value>hdfs://localhost:8020/user/oozie/workflows/hive-site.xml</value>
+                           </property>
+                           <property>
+                                <name>hadoop.proxyuser.oozie.hosts</name>
+                                <value>*</value>
+                           </property>
+                           <property>
+                                <name>hadoop.proxyuser.oozie.groups</name>
+                                <value>*</value>
+                           </property>
+                      </configuration>
+                      <script>create_table.hql</script>
+               </hive>
+               <ok to="end"/>
+               <error to="end"/>
+          </action>
+          <end name="end"/>
+</workflow-app>
